@@ -38,13 +38,13 @@ userSchema.methods.getJWT=async function(req,res){
 return token;
 }
 
-userSchema.methods.comparePasswords=async function(){
-   const user=this;
+// userSchema.methods.comparePasswords=async function(){
+//    const user=this;
 
-    const newPassword= await bcrypt.compare(password,user.password)
+//     const newPassword= await bcrypt.compare(password,user.password)
 
-    return newPassword;
-}
+//     return newPassword;
+// }
 
 
 module.exports=mongoose.model("User",userSchema);
