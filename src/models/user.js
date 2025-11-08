@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const jwt=require('jsonwebtoken')
 const bcrypt=require('bcrypt');
-
+const validator=require('validator')
 
 const userSchema=new mongoose.Schema({
     firstName:{
@@ -25,6 +25,30 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    gender:{
+     type:String,
+    validate(value){
+     if(!["male","female","others"].includes(value)){
+        throw new Error("Gender data is not valid")
+     }
+    }
+    },
+    photoUrl:{
+        type:String,
+        default:"https://avatars.githubusercontent.com/u/142707936?v=4",
+        validate(value){
+            if(!validator.isURL(value)){
+                throw new Error("Invalid photo URL")
+            }
+        }
+    },
+    about:{
+        type:String,
+        default:"This is default about of the user"
+    },
+    skills:{
+        type:[String]
+    }
 },{
     timestamps:true
 })

@@ -17,4 +17,13 @@ console.log("Email value received:", email);
   }
 };
 
-module.exports = { validation };
+const validateProfileRequest=(req)=>{
+
+  const allowedFields=["firstName","lastName","age","email","skills","gender","about"];
+
+  const isAllowed=Object.keys(req.body).every(field=>allowedFields.includes(field))
+
+  return isAllowed;
+}
+
+module.exports = { validation,validateProfileRequest };
