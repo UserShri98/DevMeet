@@ -5,7 +5,14 @@ const connectDB=require('./config/db')
 const User=require('./models/user')
 const jwt=require("jsonwebtoken");
 const cookieParser = require('cookie-parser');
+const cors=require('cors')
 
+app.use(cors({
+    origin:'http://localhost:5173',
+    credentials:true,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
+    allowedHeaders: ['Content-Type']
+}))
 app.use(express.json())
 app.use(cookieParser())
 

@@ -26,28 +26,34 @@ try{
 })
 
 
-userRouter.get('/user/connections',userauth,async(req,res)=>{
-    const loggedInUser=req.user;
-  
-   const connectionRequest=await ConnectionRequest.find({
-    $or:[
-        {fromUserId:loggedInUser._id,status:"accepted"},
-        {toUserId:loggedInUser._id,status:"accepted"},
-    ]
-   }).populate( "fromUserId",USER_SAFE_DETAILS).populate("toUserId",USER_SAFE_DETAILS)
+userRouter.get('/user/connections', userauth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
 
+    const connectionRequest = await ConnectionRequest.find({
+      $or: [
+        { fromUserId: loggedInUser._id ,status:"accepted"},
+        { toUserId: loggedInUser._id ,status:"accepted"},
+      ],
+    })
+      .populate("fromUserId", USER_SAFE_DETAILS)
+      .populate("toUserId", USER_SAFE_DETAILS);
 
-     const data=connectionRequest.map((row)=>{
- if(row.fromUserId.toString()===loggedInUser._id.toString()){
-    return row.toUserId;
-   }
-      return row.fromUserId;
+    const data = connectionRequest.map((row) => {
+      if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {
+        return row.toUserId;  // the other user
+      }
+      return row.fromUserId;  // the other user
+    });
 
-     })
+    return res.json({ data });
 
-  res.json({data})
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-})
 
 userRouter.get('/feed',userauth,async(req,res)=>{
 

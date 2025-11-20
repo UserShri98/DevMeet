@@ -19,7 +19,7 @@ console.log("Email value received:", email);
 
 const validateProfileRequest=(req)=>{
 
-  const allowedFields=["firstName","lastName","age","email","skills","gender","about"];
+  const allowedFields=["firstName","lastName","age","email","skills","gender","about","photoUrl"];
 
   const isAllowed=Object.keys(req.body).every(field=>allowedFields.includes(field))
 
