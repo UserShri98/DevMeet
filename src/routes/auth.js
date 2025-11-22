@@ -8,36 +8,29 @@ const User = require('../models/user');
 // SIGNUP
 authRouter.post('/signup', async (req, res) => {
   try {
-    const validationResult = validation(req);
-    if (validationResult !== true) {
-      return res.status(400).json({ error: validationResult });
+
+    try {
+      validation(req);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
     }
 
     const { firstName, lastName, email, age, password } = req.body;
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({
-      firstName,
-      lastName,
-      email,
-      age,
-      password: hashedPassword
-    });
-
+    const user = new User({ firstName, lastName, email, age, password: hashedPassword });
     const savedUser = await user.save();
-    const token = await savedUser.getJWT();
 
-    res.cookie("token", token, {
-      expires: new Date(Date.now() + 8 * 360000)
-    });
+    const token = await savedUser.getJWT();
+    res.cookie("token", token, { expires: new Date(Date.now() + 8 * 360000) });
 
     return res.json({ message: "User added successfully", data: savedUser });
 
   } catch (err) {
-    return res.status(400).json({ message: "Error", error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 });
+
 
 // LOGIN
 authRouter.post('/login', async (req, res) => {
