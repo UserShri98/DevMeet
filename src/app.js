@@ -8,11 +8,11 @@ const cookieParser = require('cookie-parser');
 const cors=require('cors')
 
 app.use(cors({
-    origin:'http://localhost:5173',
-    credentials:true,
+    origin: ['http://localhost:5173', 'http://16.171.30.18'],
+    credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
     allowedHeaders: ['Content-Type']
-}))
+}));
 app.use(express.json())
 app.use(cookieParser())
 
