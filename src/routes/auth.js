@@ -5,25 +5,24 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
 // SIGNUP
+// SIGNUP
 authRouter.post('/signup', async (req, res) => {
   try {
-
-    // If validation sends a response, stop execution
     const validationResult = validation(req);
     if (validationResult !== true) {
-      return;  // STOP here if validation already responded
+      return res.status(400).json({ error: validationResult });
     }
 
     const { firstName, lastName, email, age, password } = req.body;
 
-    const hashedPaswword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
       firstName,
       lastName,
       email,
       age,
-      password: hashedPaswword
+      password: hashedPassword
     });
 
     const savedUser = await user.save();
