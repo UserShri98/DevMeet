@@ -8,11 +8,11 @@ const cookieParser = require('cookie-parser');
 const cors=require('cors')
 
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://16.171.30.18'],
-    credentials: true,
+    origin:'http://localhost:5173',
+    credentials:true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
     allowedHeaders: ['Content-Type']
-}));
+}))
 app.use(express.json())
 app.use(cookieParser())
 
@@ -21,10 +21,11 @@ const profileRouter=require('./routes/profile')
 const requestRouter=require('./routes/request');
 const userRouter = require('./routes/user');
 
-app.use('/api', authRouter);
-app.use('/api', profileRouter);
-app.use('/api', requestRouter);
-app.use('/api', userRouter);
+app.use('/',authRouter);
+app.use('/',profileRouter);
+app.use('/',requestRouter)
+app.use('/',userRouter);
+
 // app.post('/users', async (req, res) => {
 
 
