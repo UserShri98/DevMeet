@@ -1,4 +1,6 @@
-require('dotenv').config(); // 👈 MUST BE FIRST
+require('dotenv').config(); 
+
+const PORT = process.env.PORT || 3000;
 
 const express=require('express');
 const adminAuth=require('./middlewares/auth')
@@ -57,8 +59,8 @@ app.use('/',userRouter);
 connectDB()
 .then(()=>{
     console.log("Database connection is successful")
-    app.listen(3000,(req,res)=>{
-    console.log("Server is listening on PORT 3000...")
+    app.listen(PORT,(req,res)=>{
+    console.log(`Server is listening on PORT ${PORT}...`)
 })
 })
 .catch((err)=>console.log("Error while connecting database" , err));
