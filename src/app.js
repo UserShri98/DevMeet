@@ -1,3 +1,5 @@
+require('dotenv').config(); // 👈 MUST BE FIRST
+
 const express=require('express');
 const adminAuth=require('./middlewares/auth')
 const app=express();
@@ -7,12 +9,13 @@ const jwt=require("jsonwebtoken");
 const cookieParser = require('cookie-parser');
 const cors=require('cors')
 
+
 app.use(cors({
-    origin:'http://localhost:5173',
-    credentials:true,
-    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
-    allowedHeaders: ['Content-Type']
-}))
+  origin: 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json())
 app.use(cookieParser())
 
@@ -59,5 +62,3 @@ connectDB()
 })
 })
 .catch((err)=>console.log("Error while connecting database" , err));
-
-

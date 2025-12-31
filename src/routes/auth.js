@@ -4,8 +4,7 @@ const { validation } = require('../utils/validation');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
-// SIGNUP
-// SIGNUP
+
 authRouter.post('/signup', async (req, res) => {
   try {
 
@@ -32,7 +31,6 @@ authRouter.post('/signup', async (req, res) => {
 });
 
 
-// LOGIN
 authRouter.post('/login', async (req, res) => {
   try {
 
@@ -41,19 +39,19 @@ authRouter.post('/login', async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).send("Invalid credentials");  // STOP here
+      return res.status(401).send("Invalid credentials");  
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(401).send("Invalid credentials");  // STOP here
+      return res.status(401).send("Invalid credentials");  
     }
 
     const token = await user.getJWT();
     res.cookie("token", token);
 
-    return res.send(user);  // STOP here
+    return res.send(user);  
 
   } catch (err) {
     return res.status(400).json({ message: "Error", error: err.message });
