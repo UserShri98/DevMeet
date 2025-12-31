@@ -49,7 +49,11 @@ authRouter.post('/login', async (req, res) => {
     }
 
     const token = await user.getJWT();
-    res.cookie("token", token);
+    res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none"
+});
 
     return res.send(user);  
 
